@@ -63,51 +63,72 @@ function copy(obj) {
 console.log('var-3')
 
 
-const complexObject = {
-  number: 42,
-  string: "Hello, world!",
-  boolean: true,
-  nullValue: null,
-  undefinedValue: undefined,
-  symbol: Symbol("unique"),
-  bigInt: BigInt(123456789012345678901234567890),
-  array: [1, "text", { key: "value" }, [2, 3]],
-  set: new Set([1, 2, 3, { nested: "object" }]),
+const sym = Symbol("unique");
+
+class Parent {
+  parentMethod() {
+    return "I'm a parent method";
+  }
+}
+
+class Child extends Parent {
+  constructor (name) {
+    super();
+  }
+}
+
+function regularFunction(x) {
+  return x * 2;
+}
+
+const arrowFunction = (x) => x * 3;
+const boundFunction = regularFunction.bind(null, 5);
+
+const baseObject = {
+  num: 42,
+  str: "Hello",
+  bool: true,
+  n: null,
+  u: undefined,
+  bigInt: BigInt(9007199254740991),
+  sym,
+  arr: [1, "text", { key: "value" }, [2, 3]],
+  set: new Set([1, 2, { deep: "object" }]),
   map: new Map([
     ["key1", "value1"],
-    [{ objKey: true }, "value2"],
+    [sym, "symbolKey"],
+    [{ objKey: "yes" }, { objValue: "yes" }],
   ]),
-  nestedObject: {
-    level1: {
-      level2: {
-        level3: "deep",
-      },
-    },
-  },
-  func: function (x) {
-    return x * 2;
-  },
-  arrowFunc: (x) => x + 1,
+  fn: regularFunction,
+  arrowFn: arrowFunction,
+  boundFn: boundFunction,
   method() {
-    return "I am a method";
+    return "object method";
   },
-  classInstance: new (class Example {
-    constructor(name) {
-      this.name = name;
-    }
-    greet() {
-      return `Hello, ${this.name}`;
-    }
-  })("Asel"),
 };
 
-Object.defineProperty(complexObject, "nonEnumerable", {
-  value: "Hidden",
+Object.defineProperty(baseObject, "hiddenProp", {
+  value: "secret",
+  writable: false,
   enumerable: false,
+  configurable: false,
 });
 
-const copyFn = copy(complexObject)
+const childInstance = new Child("Asel");
 
-console.log(complexObject.nestedObject.level1 === copyFn.nestedObject.level1)
-console.log(complexObject.nestedObject.level1.level2.level3 === copyFn.nestedObject.level1.level2.level3)
-console.log(copyFn.nestedObject)
+const extendedObject = Object.create(baseObject);
+extendedObject.extra = "additional property";
+
+const testObject = {
+  baseObject,
+  childInstance,
+  extendedObject,
+};
+
+const copytestObject = copy(testObject);
+
+console.log('testObject', testObject);
+console.log('copytestObject', copytestObject);
+console.log('copytestObject === testObject', copytestObject === testObject);
+console.log('copytestObject.arr === testObject.arr', copytestObject.arr === testObject.arr);
+console.log('copytestObject.map === testObject.map', copytestObject.map === testObject.map);
