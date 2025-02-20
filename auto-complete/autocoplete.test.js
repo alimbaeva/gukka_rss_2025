@@ -10,7 +10,7 @@ const { createAutoComplete } = require(modulepath);
 const subsearches = {
     // A: require('./data/sub-search-A.json'),
     // Au: require('./data/sub-search-Au.json'),
-    Aus: require('./data/sub-search-Aus.json'),
+    // Aus: require('./data/sub-search-Aus.json'),
     Aust: require('./data/sub-search-Aust.json'),
     Austi: require('./data/sub-search-Austi.json'),
     Austin: require('./data/sub-search-Austin.json'),
