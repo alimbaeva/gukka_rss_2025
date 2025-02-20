@@ -17,8 +17,19 @@ function copy(obj) {
   }
 
   if (typeof obj === 'function') {
-    return obj.bind(obj);
+    try {
+      const newFunc = function (...args) {
+        return obj.call(this, ...args);
+      };
+      Object.setPrototypeOf(newFunc, Object.getPrototypeOf(obj));
+      Object.defineProperties(newFunc, Object.getOwnPropertyDescriptors(obj));
+      return newFunc;
+    } catch {
+      return obj; // Если ошибка — вернуть оригинал
+    }
   }
+  
+  
 
   if(Array.isArray(obj)) return obj.map((item) => copy(item));
 
@@ -48,6 +59,10 @@ function copy(obj) {
 
   return copyObject;
 }
+
+console.log('var-3')
+
+
 const complexObject = {
   number: 42,
   string: "Hello, world!",
@@ -93,4 +108,6 @@ Object.defineProperty(complexObject, "nonEnumerable", {
 
 const copyFn = copy(complexObject)
 
-console.log(copyFn.arrowFunc(2))
+console.log(complexObject.nestedObject.level1 === copyFn.nestedObject.level1)
+console.log(complexObject.nestedObject.level1.level2.level3 === copyFn.nestedObject.level1.level2.level3)
+console.log(copyFn.nestedObject)
