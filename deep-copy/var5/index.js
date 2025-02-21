@@ -97,15 +97,12 @@ class Child extends Parent {
     this.name = name;
   }
 
-  get() {
-    return this.name
-  }
-  set() {
-    this.name = this.name;
+  get getFn() {
     return this.name
   }
 
-  #count() {
+  set seting(name) {
+    this.name = name;
     return this.name
   }
 }
@@ -164,9 +161,9 @@ const copytestObject = copy(testObject);
 // console.log('testObject.extendedObject', testObject.extendedObject);
 // console.log('copytestObject.extendedObject', copytestObject.extendedObject);
 // console.log('copytestObject.extendedObject === testObject.extendedObject', copytestObject.extendedObject === testObject.extendedObject);
-// console.log('testObject.childInstance', testObject.childInstance.get());
-// console.log('copytestObject.childInstance', copytestObject.childInstance.get());
-// console.log('copytestObject.childInstance === testObject.childInstance', copytestObject.childInstance.get === testObject.childInstance.get);
+console.log('testObject.childInstance', testObject.childInstance.getFn());
+console.log('copytestObject.childInstance', copytestObject.childInstance.getFn());
+console.log('copytestObject.childInstance === testObject.childInstance', copytestObject.childInstance.getFn === testObject.childInstance.getFn);
 // console.log('testObject.childInstance.parentMethod', testObject.childInstance.parentMethod());
 // console.log('copytestObject.childInstance.parentMethod', copytestObject.childInstance.parentMethod());
 // console.log('copytestObject.childInstance.parentMethod', copytestObject.childInstance.parentMethod  ===  testObject.childInstance.parentMethod);
