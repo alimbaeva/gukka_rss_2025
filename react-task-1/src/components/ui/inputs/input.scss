@@ -1,0 +1,19 @@
+@use '../../variables.scss' as *;
+
+.input-container {
+  @extend %direction_column;
+}
+
+.input-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.3rem 1rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}

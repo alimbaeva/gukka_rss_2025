@@ -1,0 +1,12 @@
+@use '../components/variables.scss' as *;
+
+.main {
+  background-color: rgba(240, 235, 235, 0.601);
+  min-height: 100vh;
+}
+
+.cards-wrapper {
+  @extend %direction_column;
+  gap: 1rem;
+  padding: 1.5rem;
+}

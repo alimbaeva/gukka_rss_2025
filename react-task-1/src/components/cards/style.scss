@@ -1,0 +1,73 @@
+@use '../variables.scss' as *;
+
+.card-wrapper {
+  @extend %center_between_start;
+  @extend %border;
+  gap: 1rem;
+  padding: 1rem;
+
+  .card-title {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.card-action-wrapper {
+  @extend %column;
+  min-width: 300px;
+  gap: 0.6rem;
+
+  .card-actions {
+    @extend %center_between;
+    gap: 1rem;
+  }
+}
+
+.card-action-infor {
+  @extend %column;
+  gap: 0.4rem;
+
+  .span {
+    font-weight: 700;
+    margin-right: 0.4rem;
+  }
+
+  .auth-item {
+    margin-right: 1rem;
+  }
+}
+
+.buttons-wrapper {
+  @extend %column;
+  gap: 0.4rem;
+}
+
+.show-button {
+  width: 100%;
+}
+
+.show-icon {
+  width: 50%;
+}
+
+.authors-container {
+  display: inline-block;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+
+@media (max-width: 720px) {
+  .card-wrapper {
+    flex-direction: column;
+  }
+
+  .buttons-wrapper {
+    flex-direction: row;
+  }
+
+  .authors-container {
+    max-width: 100%;
+  }
+}

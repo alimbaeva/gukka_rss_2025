@@ -1,0 +1,15 @@
+@use '../variables.scss' as *;
+
+.header-wrapper {
+  @extend %center_between;
+  padding: 2rem 0;
+
+  .info-user {
+    @extend %center_between;
+    gap: 1rem;
+  }
+
+  .user-title {
+    font-size: 1.3rem;
+  }
+}

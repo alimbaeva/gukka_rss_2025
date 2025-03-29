@@ -1,0 +1,13 @@
+@use '../../variables.scss' as *;
+
+.search-bar {
+  @extend %center_between;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .search-bar {
+    flex-direction: column;
+    align-items: end;
+  }
+}
