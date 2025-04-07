@@ -1,0 +1,34 @@
+@use '../../components/variables.scss' as *;
+
+.form {
+  @extend %direction_column;
+  max-width: 25rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  gap: 20px;
+  border-radius: 10px;
+  background-color: $white;
+
+  .input-container {
+    @extend %direction_column;
+    gap: 5px;
+  }
+
+  .label {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .input-field {
+    @extend %input-field;
+  }
+
+  .password-input-wrapper {
+    @extend %center;
+    gap: 7px;
+  }
+
+  .password-icon {
+    width: 2rem;
+  }
+}

@@ -7,10 +7,12 @@ const ButtonSimple: FC<ButtonSimpleProps> = ({
   type = 'button',
   cusomStyle,
   ariaLabe,
+  disabled = false,
   onClick,
 }) => {
   return (
     <button
+      disabled={disabled}
       type={type}
       className={`buttonSimple ${cusomStyle}`}
       aria-label={ariaLabe}

@@ -3,6 +3,7 @@ export interface ButtonSimpleProps {
   type?: 'button' | 'submit' | 'reset';
   cusomStyle?: string;
   ariaLabe: string;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
@@ -26,6 +27,7 @@ export interface InputProps {
 export interface AuthorsList {
   id: string;
   name: string;
+  removed?: boolean;
 }
 
 export interface Authors {
@@ -57,4 +59,31 @@ export interface CardProps extends CoursesListType {
 
 export interface RenderAuthProps {
   authors: string[];
+}
+
+export interface CourseFormData {
+  title: string;
+  description: string;
+  duration: number;
+  authorName?: string;
+}
+
+export interface LoginFormValues {
+  username: string;
+  password: string;
+}
+
+export interface CourseData {
+  title: string;
+  description: string;
+  duration: number;
+  creationDate: number;
+  authors: string[];
+}
+
+export interface AuthListItemType {
+  title?: string;
+  authList?: AuthorsList[];
+  auth?: AuthorsList;
+  selects?: boolean;
 }

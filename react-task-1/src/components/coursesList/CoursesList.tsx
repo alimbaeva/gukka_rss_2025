@@ -1,21 +1,16 @@
 import Card from '../cards/Card';
-import {
-  mockCurrentCoursesList,
-  mockedCoursesList,
-} from '../../mockCoursesList';
 import { useEffect, useState } from 'react';
 import { useSearch } from '../context/useSearch';
 import useSearchFilter from '../../customHooks/useSearchFilter';
-import { CardProps, CoursesListType } from '../../types/types';
 import EmptyCoursesList from '../empty/EmptyCoursesList';
-import CourseInfo from '../courseInfo/CourseInfo';
+import { CoursesListType } from '../../types/types';
+import { getCourses } from '../../helper/getCourse';
+import { deleteCourse } from '../../api/courses';
 
 const CoursesList = () => {
-  const { searchQuery, isSearch, isAdd, moreInfoId } = useSearch();
-  const [courseData, setCourseData] = useState(mockCurrentCoursesList ?? []);
-  const [moreInfoCourse, setMoreInfoCourse] = useState<CoursesListType | null>(
-    null
-  );
+  const { searchQuery, isSearch, getAllAuth } = useSearch();
+  const [courseData, setCourseData] = useState<CoursesListType[]>([]);
+  const [louding, setLouding] = useState(true);
 
   const searchData = useSearchFilter({
     searchQuery,
@@ -23,9 +18,27 @@ const CoursesList = () => {
     courseData,
   });
 
+  const fetchCourses = async () => {
+    try {
+      const data = await getCourses();
+      if (data) setCourseData(data);
+    } catch (err) {
+      console.error(err);
+      setCourseData([]);
+    }
+  };
+
+  const deleteCourseId = async (id: string) => {
+    try {
+      const res = await deleteCourse(`courses/${id}`);
+      if (res) fetchCourses();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const removeItem = (id: string) => {
-    const items = courseData.filter((el) => el.id !== id);
-    setCourseData(items);
+    deleteCourseId(id);
   };
 
   const renderCards = (data: CoursesListType[]) => {
@@ -35,23 +48,15 @@ const CoursesList = () => {
   };
 
   useEffect(() => {
-    setCourseData(mockedCoursesList);
-  }, [isAdd]);
-
-  useEffect(() => {
-    if (moreInfoId) {
-      const items = courseData.filter((el) => el.id === moreInfoId);
-      setMoreInfoCourse(items[0]);
-    } else {
-      setMoreInfoCourse(null);
-    }
-  }, [courseData, moreInfoId]);
+    fetchCourses();
+    getAllAuth();
+    setLouding(true);
+    setTimeout(() => setLouding(false), 800);
+  }, []);
 
   if (searchData.empty) return <p className="container">{searchData.empty}</p>;
+  if (louding) return <p className="container">...louding</p>;
   if (!searchData.empty && !courseData.length) return <EmptyCoursesList />;
-  if (moreInfoId && moreInfoCourse) {
-    return <CourseInfo {...(moreInfoCourse as CardProps)} />;
-  }
 
   return (
     <section className="cards-wrapper container">

@@ -10,3 +10,20 @@
   gap: 1rem;
   padding: 1.5rem;
 }
+
+.warn-text {
+  color: $warn;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.error-text {
+  color: $error;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.title-page {
+  text-align: center;
+  padding: 2rem;
+}

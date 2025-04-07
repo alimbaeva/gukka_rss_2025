@@ -1,8 +1,12 @@
-import { useSearch } from '../context/useSearch';
+import { useNavigate } from 'react-router-dom';
 import ButtonSimple from '../ui/buttons/Button';
 
 const EmptyCoursesList = () => {
-  const { handleAddCours } = useSearch();
+  const navigate = useNavigate();
+
+  const handleAddCours = () => {
+    navigate('/courses/add', { replace: true });
+  };
 
   return (
     <div className="cards-wrapper container">
@@ -11,7 +15,7 @@ const EmptyCoursesList = () => {
       <ButtonSimple
         text={'Add new course'}
         ariaLabe={'Add new course button'}
-        onClick={() => handleAddCours()}
+        onClick={handleAddCours}
       />
     </div>
   );
