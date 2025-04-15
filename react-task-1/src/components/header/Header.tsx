@@ -1,4 +1,4 @@
-import logo from '@assets/Logo_img.svg';
+import logo from '../../assets/Logo_img.svg';
 import './header.scss';
 import ButtonSimple from '../ui/buttons/Button';
 import { useSearch } from '../context/useSearch';

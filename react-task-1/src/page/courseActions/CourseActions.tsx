@@ -1,95 +1,64 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
 import MainInfo from '../../components/courseForm/MainInfo';
 import Duration from '../../components/courseForm/Duration';
 import AuthorsForm from '../../components/courseForm/AuthorsForm';
 import AuthorsList from '../../components/courseForm/AuthorsList';
 import FormButtons from '../../components/courseForm/FormButtons';
-import { CourseData, CourseFormData } from '../../types/types';
 import './courseActions.scss';
-import { courseSchema } from '../../helper/validationSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createCourse, updateCourse } from '../../api/courses';
-import { useSearch } from '../../components/context/useSearch';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { getCourse } from '../../helper/getCourse';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import { clearCourse } from '../../store/slice/coursesSlice';
+import { useInitAuthors } from '../../customHooks/useInitAuthors';
+import { useCourseDataFill } from '../../customHooks/useCourseDataFill';
+import { useCourseEffects } from '../../customHooks/useCourseEffects';
+import { useCourseSubmit } from '../../customHooks/useCourseSubmit';
+import { useCourseForm } from '../../customHooks/useCourseForm';
+import { coursesPath } from '../../constants/pathConstants';
 
 const CourseActions = () => {
   const location = useLocation();
   const id = location.state?.id as string;
   const navigate = useNavigate();
-  const { selectAuth, authList, setSelectAuth, getAllAuth, filterSelectAuth } =
-    useSearch();
 
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    authors: { authList, selectAuth, authors },
+  } = useSelector((state: RootState) => state.authorsReducer) || {
+    authors: {
+      authList: [],
+      selectAuth: [],
+      authors: [],
+    },
+  };
+  const { course, isLoadingCourses } =
+    useSelector((state: RootState) => state.coursesReducer) || {};
   const {
     register,
     handleSubmit,
-    watch,
-    resetField,
     reset,
+    resetField,
     formState: { errors },
-  } = useForm<CourseFormData>({
-    resolver: zodResolver(courseSchema),
-    mode: 'onChange',
-  });
+    duration,
+    authorName,
+  } = useCourseForm();
 
-  const [duration, authorName] = watch(['duration', 'authorName']);
+  const onSubmit = useCourseSubmit(id, selectAuth, reset);
 
-  const onSubmit: SubmitHandler<CourseFormData> = async (data) => {
-    try {
-      const courseData: CourseData = {
-        title: data.title,
-        description: data.description,
-        duration: data.duration,
-        creationDate: Math.floor(Date.now() / 1000),
-        authors: selectAuth.map((el) => el.id),
-      };
-      const res = id
-        ? await updateCourse(`courses/${id}`, courseData)
-        : await createCourse(`courses/`, courseData);
-      if (!id) reset();
-      setSelectAuth([]);
-      navigate('/courses', { replace: true });
-      return res;
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  useCourseEffects(id, !!authList.length);
+  useCourseDataFill(course, authors, reset);
+  useInitAuthors(!!authList.length, !!id);
 
   const handleCloseForm = () => {
     reset();
-    navigate('/courses', { replace: true });
+    navigate(coursesPath, { replace: true });
+    dispatch(clearCourse());
   };
 
-  useEffect(() => {
-    const fetchCourse = async () => {
-      if (!authList.length) getAllAuth();
-      const data = await getCourse(id);
-      if (data) {
-        const filterData = await filterSelectAuth(data.authors);
-        if (filterData) setSelectAuth(filterData);
-        reset({
-          title: data.title,
-          description: data.description,
-          duration: data.duration,
-        });
-      }
-    };
-    if (id) fetchCourse();
-  }, [id]);
-
-  useEffect(() => {
-    if (selectAuth.length && !id) {
-      setSelectAuth([]);
-    }
-    if (!authList.length && !id) {
-      getAllAuth();
-    }
-  }, []);
+  if (isLoadingCourses && id) return <p className="container">...louding</p>;
 
   return (
     <section className="container action-page">
-      <h1 className="title-page">Course Creat</h1>
+      <h1 className="title-page">{!id ? 'Course Creat' : 'Edit Course'}</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="action-form">
         <div className="item-form-wrapper">
           <MainInfo register={register} errors={errors} />
@@ -121,7 +90,10 @@ const CourseActions = () => {
             <AuthorsList title={'Authors List'} authList={authList} />
           </div>
         </div>
-        <FormButtons handleCloseForm={handleCloseForm} />
+        <FormButtons
+          handleCloseForm={handleCloseForm}
+          buttonText={id ? 'Update Course' : 'Create Course'}
+        />
       </form>
     </section>
   );

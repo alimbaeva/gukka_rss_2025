@@ -13,6 +13,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
 }) => {
   return (
     <button
+      data-testid={ariaLabe}
       type={type}
       className={`buttonSimple ${cusomStyle}`}
       onClick={onClick}

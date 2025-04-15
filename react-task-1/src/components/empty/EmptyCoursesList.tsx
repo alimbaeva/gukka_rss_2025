@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import ButtonSimple from '../ui/buttons/Button';
+import { addCoursePath, coursesPath } from '../../constants/pathConstants';
 
 const EmptyCoursesList = () => {
   const navigate = useNavigate();
 
   const handleAddCours = () => {
-    navigate('/courses/add', { replace: true });
+    navigate(`${coursesPath}${addCoursePath}`, { replace: true });
   };
 
   return (

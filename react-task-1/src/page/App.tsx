@@ -8,6 +8,12 @@ import PrivateRoute from './PrivateRoute';
 import { useSearch } from '../components/context/useSearch';
 import CourseInfo from '../components/courseInfo/CourseInfo';
 import NotFound from './404/NotFound';
+import {
+  addCoursePath,
+  coursesPath,
+  editCoursePath,
+  loginCoursePath,
+} from '../constants/pathConstants';
 
 const App = () => {
   const { userData } = useSearch();
@@ -16,13 +22,15 @@ const App = () => {
       <Header />
       <main className="main">
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path={loginCoursePath} element={<Login />} />
           <Route
             path="/"
-            element={<Navigate to={userData ? '/courses' : '/login'} replace />}
+            element={
+              <Navigate to={userData ? coursesPath : loginCoursePath} replace />
+            }
           />
           <Route
-            path="/courses"
+            path={coursesPath}
             element={
               <PrivateRoute>
                 <Courses />
@@ -30,7 +38,7 @@ const App = () => {
             }
           />
           <Route
-            path="/courses/add"
+            path={`${coursesPath}${addCoursePath}`}
             element={
               <PrivateRoute>
                 <CourseActions />
@@ -38,7 +46,7 @@ const App = () => {
             }
           />
           <Route
-            path="/courses/:id/edit"
+            path={`${coursesPath}/:id${editCoursePath}`}
             element={
               <PrivateRoute>
                 <CourseActions />
@@ -46,7 +54,7 @@ const App = () => {
             }
           />
           <Route
-            path="/courses/:id"
+            path={`${coursesPath}/:id`}
             element={
               <PrivateRoute>
                 <CourseInfo />

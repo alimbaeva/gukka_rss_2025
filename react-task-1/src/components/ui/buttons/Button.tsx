@@ -12,6 +12,7 @@ const ButtonSimple: FC<ButtonSimpleProps> = ({
 }) => {
   return (
     <button
+      data-testid={text}
       disabled={disabled}
       type={type}
       className={`buttonSimple ${cusomStyle}`}

@@ -9,6 +9,11 @@ import RenderAuth from '../../ui/renderElements/RenderAuth';
 import { useNavigate } from 'react-router-dom';
 import { convertDateToUTCDate } from '../../../helper/convertDate';
 import Modal from '../../modal/Modal';
+import {
+  coursesPath,
+  editCoursePath,
+  searchButtonText,
+} from '../../../constants/pathConstants';
 
 const ActionCard: FC<ActionCardProps> = ({
   id,
@@ -22,10 +27,10 @@ const ActionCard: FC<ActionCardProps> = ({
 
   const handleRemove = () => removeItem(id);
   const handleMoreInfo = () => {
-    navigate(`/courses/${id}`, { state: { id: id } });
+    navigate(`${coursesPath}/${id}`, { state: { id: id } });
   };
   const handleUpdateCourse = () => {
-    navigate(`/courses/${id}/edit`, { state: { id: id } });
+    navigate(`${coursesPath}/${id}${editCoursePath}`, { state: { id: id } });
   };
 
   return (
@@ -77,12 +82,12 @@ const ActionCard: FC<ActionCardProps> = ({
           <div className="button-wraper">
             <ButtonSimple
               text={'Cunsel'}
-              ariaLabe={'Search button'}
+              ariaLabe={'open modal'}
               onClick={() => setIsOpenModal(false)}
             />
             <ButtonSimple
               text={'Remove course'}
-              ariaLabe={'Search button'}
+              ariaLabe={searchButtonText}
               onClick={handleRemove}
             />
           </div>

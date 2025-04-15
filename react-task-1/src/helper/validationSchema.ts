@@ -19,14 +19,14 @@ export const loginFormSchema = z.object({
 export const courseSchema = z.object({
   title: z
     .string()
-    .min(5, 'Title must be at least 5 characters long')
+    .min(2, 'Title must be at least 5 characters long')
     .regex(
       /^[A-Z][a-zA-Z0-9\s\-']*$/,
       'Title must start with a capital letter and contain only Latin letters'
     ),
   description: z
     .string()
-    .min(30, 'Description must be at least 30 characters long'),
+    .min(2, 'Description must be at least 30 characters long'),
 
   duration: z
     .number()

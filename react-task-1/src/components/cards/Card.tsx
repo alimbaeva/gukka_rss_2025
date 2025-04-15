@@ -13,7 +13,7 @@ const Card: FC<CardProps> = ({
   removeItem,
 }) => {
   return (
-    <div className="card-wrapper">
+    <div className="card-wrapper" data-testid={`card-${id}`}>
       <div>
         <h2 className="card-title">{title}</h2>
         <p>{description}</p>

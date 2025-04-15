@@ -36,12 +36,12 @@ export interface Authors {
 
 export interface CreationCourse extends Authors {
   id: string;
-  creationDate: string;
+  creationDate: number;
   duration: number;
 }
 export interface ActionCardProps extends CreationCourse {
   id: string;
-  creationDate: string;
+  creationDate: number;
   duration: number;
   removeItem: (arg: string) => void;
 }
@@ -54,7 +54,7 @@ export interface CoursesListType extends CreationCourse {
 export interface CardProps extends CoursesListType {
   title: string;
   description: string;
-  removeItem: (arg: string) => void;
+  removeItem: (arg: string) => Promise<void>;
 }
 
 export interface RenderAuthProps {

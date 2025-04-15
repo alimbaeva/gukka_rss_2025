@@ -10,6 +10,7 @@ import { saveToLocalStorage } from '../../customHooks/localActions';
 import { useNavigate } from 'react-router-dom';
 import { loginFormSchema } from '../../helper/validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { coursesPath } from '../../constants/pathConstants';
 
 export interface LoginResponse {
   id: number;
@@ -46,7 +47,7 @@ const Login = () => {
         name: res.firstName,
         accessToken: res.accessToken,
       });
-      navigate('/courses', { replace: true });
+      navigate(coursesPath, { replace: true });
     } catch (error) {
       console.error(error);
     }
@@ -74,7 +75,7 @@ const Login = () => {
         <ButtonSimple
           disabled={!isValid}
           text={'Login'}
-          ariaLabe={'Search button'}
+          ariaLabe={'Login'}
           type="submit"
         />
       </form>

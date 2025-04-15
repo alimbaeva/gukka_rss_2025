@@ -2,6 +2,7 @@ import ButtonSimple from '../../ui/buttons/Button';
 import InputSimple from '../../ui/inputs/InputSimple';
 import './style.scss';
 import { useSearch } from '../../context/useSearch';
+import { searchButtonText } from '../../../constants/pathConstants';
 
 const SearchBar = () => {
   const { setSearchQuery, searchQuery, setIsSearch } = useSearch();
@@ -19,7 +20,7 @@ const SearchBar = () => {
       />
       <ButtonSimple
         text={'Search'}
-        ariaLabe={'Search button'}
+        ariaLabe={searchButtonText}
         onClick={handleSearch}
       />
     </div>

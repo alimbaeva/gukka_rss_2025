@@ -1,16 +1,24 @@
 import Card from '../cards/Card';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearch } from '../context/useSearch';
 import useSearchFilter from '../../customHooks/useSearchFilter';
 import EmptyCoursesList from '../empty/EmptyCoursesList';
 import { CoursesListType } from '../../types/types';
-import { getCourses } from '../../helper/getCourse';
-import { deleteCourse } from '../../api/courses';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import { getAuthorsThunk } from '../../store/thunks/authorsThunks';
+import {
+  deleteCourseThunk,
+  getCoursesThunk,
+} from '../../store/thunks/coursesThunks';
 
 const CoursesList = () => {
-  const { searchQuery, isSearch, getAllAuth } = useSearch();
-  const [courseData, setCourseData] = useState<CoursesListType[]>([]);
-  const [louding, setLouding] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+  const { courseData, isLoadingCourses } = useSelector(
+    (state: RootState) => state.coursesReducer
+  );
+
+  const { searchQuery, isSearch } = useSearch();
 
   const searchData = useSearchFilter({
     searchQuery,
@@ -18,44 +26,30 @@ const CoursesList = () => {
     courseData,
   });
 
-  const fetchCourses = async () => {
-    try {
-      const data = await getCourses();
-      if (data) setCourseData(data);
-    } catch (err) {
-      console.error(err);
-      setCourseData([]);
-    }
-  };
-
   const deleteCourseId = async (id: string) => {
     try {
-      const res = await deleteCourse(`courses/${id}`);
-      if (res) fetchCourses();
+      const res = await dispatch(deleteCourseThunk(`${id}`));
+      if (deleteCourseThunk.fulfilled.match(res)) {
+        await dispatch(getCoursesThunk());
+      }
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const removeItem = (id: string) => {
-    deleteCourseId(id);
   };
 
   const renderCards = (data: CoursesListType[]) => {
     return data.map((el) => (
-      <Card key={el.id} {...el} removeItem={removeItem} />
+      <Card key={el.id} {...el} removeItem={deleteCourseId} />
     ));
   };
 
   useEffect(() => {
-    fetchCourses();
-    getAllAuth();
-    setLouding(true);
-    setTimeout(() => setLouding(false), 800);
+    dispatch(getAuthorsThunk());
+    dispatch(getCoursesThunk());
   }, []);
 
   if (searchData.empty) return <p className="container">{searchData.empty}</p>;
-  if (louding) return <p className="container">...louding</p>;
+  if (isLoadingCourses) return <p className="container">...louding</p>;
   if (!searchData.empty && !courseData.length) return <EmptyCoursesList />;
 
   return (

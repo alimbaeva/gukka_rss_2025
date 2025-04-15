@@ -6,8 +6,10 @@ import {
 } from 'react-hook-form';
 import InputField from '../ui/inputs/InputFeald';
 import ButtonSimple from '../ui/buttons/Button';
-import { useSearch } from '../context/useSearch';
 import { CourseFormData } from '../../types/types';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { createAuthorThunk } from '../../store/thunks/authorsThunks';
 
 interface AuthorsFormProps<T extends FieldValues> {
   register: UseFormRegister<T>;
@@ -22,10 +24,10 @@ const AuthorsForm = <T extends FieldValues>({
   authorName,
   resetField,
 }: AuthorsFormProps<T>) => {
-  const { createAuth } = useSearch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleCreateAuth = () => {
-    createAuth(authorName);
+    dispatch(createAuthorThunk(authorName));
     resetField('authorName');
   };
 

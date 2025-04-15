@@ -1,39 +1,39 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getHours } from '../../helper/getHours';
 import ButtonSimple from '../ui/buttons/Button';
 import RenderAuth from '../ui/renderElements/RenderAuth';
-import { CardProps } from '../../types/types';
 import './courseInfo.scss';
 import { useSearch } from '../context/useSearch';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getCourse } from '../../helper/getCourse';
 import { convertDateToUTCDate } from '../../helper/convertDate';
+import { getCourseIdThunk } from '../../store/thunks/coursesThunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import { clearCourse } from '../../store/slice/coursesSlice';
+import { coursesPath } from '../../constants/pathConstants';
 
 const CourseInfo = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const { setSearchQuery } = useSearch();
-  const [course, setCourse] = useState<CardProps | null>(null);
+  const { course, isLoadingCourses } = useSelector(
+    (state: RootState) => state.coursesReducer
+  );
 
   const handleBack = () => {
     setSearchQuery('');
-    navigate('/courses', { replace: true });
+    navigate(coursesPath, { replace: true });
+    dispatch(clearCourse());
   };
 
   useEffect(() => {
-    const fetchCourse = async () => {
-      const id = location.state?.id as string;
-      if (!id) return;
-      try {
-        const data = await getCourse(id);
-        if (data) setCourse(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchCourse();
+    const id = location.state?.id as string;
+    if (!id) return;
+    dispatch(getCourseIdThunk(id));
   }, []);
 
+  if (isLoadingCourses) return <p className="container">...louding</p>;
   if (!course) return;
 
   return (

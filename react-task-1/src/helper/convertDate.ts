@@ -1,4 +1,4 @@
-export const convertDateToUTCDate = (timestamp: string): string => {
+export const convertDateToUTCDate = (timestamp: string | number): string => {
   const num = Number(timestamp);
   if (isNaN(num)) return 'Invalid timestamp';
 

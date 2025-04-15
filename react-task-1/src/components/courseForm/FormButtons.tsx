@@ -1,6 +1,12 @@
 import ButtonSimple from '../ui/buttons/Button';
 
-const FormButtons = ({ handleCloseForm }: { handleCloseForm: () => void }) => {
+const FormButtons = ({
+  handleCloseForm,
+  buttonText,
+}: {
+  handleCloseForm: () => void;
+  buttonText: string;
+}) => {
   return (
     <div className="buttons-form-wrapper">
       <ButtonSimple
@@ -9,7 +15,7 @@ const FormButtons = ({ handleCloseForm }: { handleCloseForm: () => void }) => {
         onClick={handleCloseForm}
       />
       <ButtonSimple
-        text="Create Course"
+        text={buttonText}
         ariaLabe="Create course button"
         type="submit"
       />

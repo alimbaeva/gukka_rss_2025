@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import ButtonSimple from '../../components/ui/buttons/Button';
+import { coursesPath } from '../../constants/pathConstants';
 
 const NotFound = () => {
   const navigate = useNavigate();
 
   const handlePages = () => {
-    navigate('/courses/', { replace: true });
+    navigate(coursesPath, { replace: true });
   };
 
   return (

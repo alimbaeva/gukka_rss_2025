@@ -1,31 +1,38 @@
 import { FC, useEffect, useState } from 'react';
 import { RenderAuthProps, AuthorsList } from '../../../types/types';
-import { useSearch } from '../../context/useSearch';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../store/store';
+import { getAuthorsThunk } from '../../../store/thunks/authorsThunks';
+import { filterSelectAuth } from '../../../helper/filterSelectAuth';
 
 const RenderAuth: FC<RenderAuthProps> = ({ authors }) => {
-  const { auths, getAllAuth, filterSelectAuth } = useSearch();
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    authors: { authors: authorsslise },
+  } = useSelector((state: RootState) => state.authorsReducer);
+
   const [authsCourse, setAuthsCourse] = useState<AuthorsList[]>([]);
 
   useEffect(() => {
-    const fetchAuthors = async () => {
+    const fetchAuthors = () => {
       if (!authors) return;
       try {
-        if (!auths) getAllAuth();
-        const data = await filterSelectAuth(authors);
+        if (!authorsslise.length) dispatch(getAuthorsThunk());
+        const data = filterSelectAuth(authors, authorsslise);
         if (data) setAuthsCourse(() => data);
       } catch (err) {
         console.error(err);
       }
     };
     fetchAuthors();
-  }, [authors]);
+  }, [authors, authorsslise, dispatch]);
 
   if (!authors.length || !authsCourse.length) return;
 
   return authsCourse.map((el, id) => (
     <span key={id} className="auth-item">
       {el.name}
-      {id !== auths.length - 1 && ', '}
+      {id !== authorsslise.length - 1 && ', '}
     </span>
   ));
 };

@@ -2,11 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import ButtonSimple from '../ui/buttons/Button';
 import SearchBar from './_components/SearchBar';
 import './headContent.scss';
+import { addCoursePath, coursesPath } from '../../constants/pathConstants';
 
 const HeadContent = () => {
   const navigate = useNavigate();
   const handleAddCourse = () => {
-    navigate('/courses/add', { replace: true });
+    navigate(`${coursesPath}${addCoursePath}`, { replace: true });
   };
 
   return (
