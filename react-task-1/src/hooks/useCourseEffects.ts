@@ -11,9 +11,12 @@ export const useCourseEffects = (
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (id) {
-      if (!hasAuthors) dispatch(getAuthorsThunk());
-      dispatch(getCourseIdThunk(id));
+    if (!id) return;
+
+    if (!hasAuthors) {
+      dispatch(getAuthorsThunk());
     }
+
+    dispatch(getCourseIdThunk(id));
   }, [id]);
 };

@@ -5,8 +5,8 @@ import { api } from './api/api';
 
 export const store = configureStore({
   reducer: {
-    authorsReducer: authorsReducer,
-    coursesReducer: coursesReducer,
+    authors: authorsReducer,
+    courses: coursesReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

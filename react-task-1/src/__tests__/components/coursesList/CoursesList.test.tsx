@@ -5,7 +5,7 @@ import CoursesList from '../../../components/coursesList/CoursesList';
 import { store } from '../../../store/store';
 import { ProviderContext } from '../../../components/context/Context';
 
-vi.mock('../../customHooks/useSearchFilter', () => ({
+vi.mock('../../hooks/useSearchFilter', () => ({
   __esModule: true,
   default: vi.fn().mockReturnValue({
     data: [
@@ -19,7 +19,7 @@ vi.mock('../../customHooks/useSearchFilter', () => ({
 vi.mock('../../context/useSearch', () => ({
   useSearch: vi.fn().mockReturnValue({
     searchQuery: '',
-    isSearch: false,
+    triggerSearchMode: false,
   }),
 }));
 
@@ -46,7 +46,7 @@ describe('CoursesList', () => {
   });
 
   it('renders loading state when courses are loading', () => {
-    expect(screen.getByText('...louding')).toBeInTheDocument();
+    expect(screen.getByText('...loading')).toBeInTheDocument();
   });
 
   it('renders courses when data is available', async () => {
@@ -56,7 +56,7 @@ describe('CoursesList', () => {
 });
 
 it('renders empty state when there are no courses', async () => {
-  vi.mock('../../customHooks/useSearchFilter', () => ({
+  vi.mock('../../hooks/useSearchFilter', () => ({
     __esModule: true,
     default: vi.fn().mockReturnValue({
       data: [],

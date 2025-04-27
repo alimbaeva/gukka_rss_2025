@@ -15,7 +15,7 @@ const EmptyCoursesList = () => {
       <p>Please click on the &quot;Add New Course&quot; button</p>
       <ButtonSimple
         text={'Add new course'}
-        ariaLabe={'Add new course button'}
+        ariaLabel={'Add new course button'}
         onClick={handleAddCours}
       />
     </div>

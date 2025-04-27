@@ -5,11 +5,11 @@ import { ProviderContext } from '../../components/context/Context';
 import { configureStore } from '@reduxjs/toolkit';
 import CourseActions from '../../page/courseActions/CourseActions';
 
-vi.mock('../../customHooks/useCourseSubmit', () => ({
+vi.mock('../../hooks/useCourseSubmit', () => ({
   useCourseSubmit: vi.fn().mockReturnValue(vi.fn()),
 }));
 
-vi.mock('../../customHooks/useCourseForm', () => ({
+vi.mock('../../hooks/useCourseForm', () => ({
   useCourseForm: vi.fn().mockReturnValue({
     register: vi.fn(),
     handleSubmit: vi.fn(),
@@ -21,15 +21,15 @@ vi.mock('../../customHooks/useCourseForm', () => ({
   }),
 }));
 
-vi.mock('../../customHooks/useCourseEffects', () => ({
+vi.mock('../../hooks/useCourseEffects', () => ({
   useCourseEffects: vi.fn(),
 }));
 
-vi.mock('../../customHooks/useCourseDataFill', () => ({
+vi.mock('../../hooks/useCourseDataFill', () => ({
   useCourseDataFill: vi.fn(),
 }));
 
-vi.mock('../../customHooks/useInitAuthors', () => ({
+vi.mock('../../hooks/useInitAuthors', () => ({
   useInitAuthors: vi.fn(),
 }));
 

@@ -1,9 +1,4 @@
-import Card from '../cards/Card';
 import { useEffect } from 'react';
-import { useSearch } from '../context/useSearch';
-import useSearchFilter from '../../customHooks/useSearchFilter';
-import EmptyCoursesList from '../empty/EmptyCoursesList';
-import { CoursesListType } from '../../types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { getAuthorsThunk } from '../../store/thunks/authorsThunks';
@@ -11,20 +6,18 @@ import {
   deleteCourseThunk,
   getCoursesThunk,
 } from '../../store/thunks/coursesThunks';
+import useSearchFilter from '../../hooks/useSearchFilter';
+import { CoursesListType } from '../../types/types';
+import Card from '../cards/Card';
+import EmptyCoursesList from '../empty/EmptyCoursesList';
 
 const CoursesList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { courseData, isLoadingCourses } = useSelector(
-    (state: RootState) => state.coursesReducer
+    (state: RootState) => state.courses
   );
 
-  const { searchQuery, isSearch } = useSearch();
-
-  const searchData = useSearchFilter({
-    searchQuery,
-    isSearch,
-    courseData,
-  });
+  const searchData = useSearchFilter({ courseData });
 
   const deleteCourseId = async (id: string) => {
     try {
@@ -49,7 +42,7 @@ const CoursesList = () => {
   }, []);
 
   if (searchData.empty) return <p className="container">{searchData.empty}</p>;
-  if (isLoadingCourses) return <p className="container">...louding</p>;
+  if (isLoadingCourses) return <p className="container">...loading</p>;
   if (!searchData.empty && !courseData.length) return <EmptyCoursesList />;
 
   return (

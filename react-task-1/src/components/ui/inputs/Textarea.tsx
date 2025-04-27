@@ -4,7 +4,8 @@ import type {
   Path,
   UseFormRegister,
 } from 'react-hook-form';
-import TextforInput from './_components/TextforInput';
+import TextForInput from './_components/TextforInput';
+import { getErrorMessage } from '../../../helper/getErrorMessage';
 
 interface InputFieldProps<T extends FieldValues> {
   forInput: keyof T;
@@ -31,10 +32,9 @@ const Textarea = <T extends FieldValues>({
         {...register(forInput as Path<T>)}
         className="input-field"
       />
-      <TextforInput
-        errors={errors}
+      <TextForInput
+        errorMessage={getErrorMessage(errors, forInput)}
         warnText={warnText}
-        forInput={String(forInput)}
       />
     </div>
   );

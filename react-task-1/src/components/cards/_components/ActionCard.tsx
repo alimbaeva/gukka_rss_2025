@@ -5,15 +5,12 @@ import ButtonIcon from '../../ui/buttons/ButtonIcon';
 import { ActionCardProps } from '../../../types/types';
 import { FC, useState } from 'react';
 import { getHours } from '../../../helper/getHours';
-import RenderAuth from '../../ui/renderElements/RenderAuth';
+import AuthorsBlock from '../../ui/renderElements/AuthorsBlock';
 import { useNavigate } from 'react-router-dom';
 import { convertDateToUTCDate } from '../../../helper/convertDate';
 import Modal from '../../modal/Modal';
-import {
-  coursesPath,
-  editCoursePath,
-  searchButtonText,
-} from '../../../constants/pathConstants';
+import { routes } from '../../../helper/routes';
+import { ariaLabels, buttonTexts } from '../../../constants/textConstants';
 
 const ActionCard: FC<ActionCardProps> = ({
   id,
@@ -27,10 +24,10 @@ const ActionCard: FC<ActionCardProps> = ({
 
   const handleRemove = () => removeItem(id);
   const handleMoreInfo = () => {
-    navigate(`${coursesPath}/${id}`, { state: { id: id } });
+    navigate(routes.courseDetails(id), { state: { id } });
   };
   const handleUpdateCourse = () => {
-    navigate(`${coursesPath}/${id}${editCoursePath}`, { state: { id: id } });
+    navigate(routes.editCourse(id), { state: { id } });
   };
 
   return (
@@ -39,7 +36,7 @@ const ActionCard: FC<ActionCardProps> = ({
         <div className="card-action-infor">
           <p>
             <span className="span authors-container">
-              Authors: <RenderAuth authors={authors} />
+              Authors: <AuthorsBlock authors={authors} />
             </span>
           </p>
           <p>
@@ -53,23 +50,23 @@ const ActionCard: FC<ActionCardProps> = ({
         </div>
         <div className="buttons-wrapper">
           <ButtonSimple
-            text={'Show course'}
-            ariaLabe={'Show Course button'}
-            cusomStyle={'show-button'}
+            text={buttonTexts.showCourse}
+            ariaLabel={ariaLabels.showCourseBtn}
+            cusomStyle="show-button"
             onClick={handleMoreInfo}
           />
           <div className="card-actions">
             <ButtonIcon
-              before={true}
+              before
               pathIcon={trashIcon}
-              ariaLabe={'Trash card'}
+              ariaLabel={ariaLabels.trashBtn}
               onClick={() => setIsOpenModal(true)}
-              cusomStyle={'show-icon'}
+              cusomStyle="show-icon"
             />
             <ButtonIcon
               before={true}
               pathIcon={editIcon}
-              ariaLabe={'Edit card'}
+              ariaLabel={ariaLabels.editBtn}
               cusomStyle={'show-icon'}
               onClick={handleUpdateCourse}
             />
@@ -81,13 +78,13 @@ const ActionCard: FC<ActionCardProps> = ({
           <p>Do you really want to delete the course?</p>
           <div className="button-wraper">
             <ButtonSimple
-              text={'Cunsel'}
-              ariaLabe={'open modal'}
+              text={buttonTexts.cancel}
+              ariaLabel={ariaLabels.cancelBtn}
               onClick={() => setIsOpenModal(false)}
             />
             <ButtonSimple
-              text={'Remove course'}
-              ariaLabe={searchButtonText}
+              text={buttonTexts.removeCourse}
+              ariaLabel={ariaLabels.confirmBtn}
               onClick={handleRemove}
             />
           </div>

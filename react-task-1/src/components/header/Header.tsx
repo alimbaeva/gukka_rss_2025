@@ -2,7 +2,7 @@ import logo from '../../assets/Logo_img.svg';
 import './header.scss';
 import ButtonSimple from '../ui/buttons/Button';
 import { useSearch } from '../context/useSearch';
-import { removeFromLocalStorage } from '../../customHooks/localActions';
+import { removeFromLocalStorage } from '../../hooks/localActions';
 
 const Header = () => {
   const { userData, setUserData } = useSearch();
@@ -21,7 +21,7 @@ const Header = () => {
             <h1 className="user-title">{userData.name}</h1>
             <ButtonSimple
               text={'LOGOUT'}
-              ariaLabe={'Log out'}
+              ariaLabel={'Log out'}
               onClick={handleLogOut}
             />
           </div>

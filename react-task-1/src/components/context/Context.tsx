@@ -1,5 +1,5 @@
 import { createContext, ReactNode, FC, useState, useEffect } from 'react';
-import { getFromLocalStorage } from '../../customHooks/localActions';
+import { getFromLocalStorage } from '../../hooks/localActions';
 
 export interface UserType {
   name: string;
@@ -7,10 +7,10 @@ export interface UserType {
 }
 export interface ContextType {
   searchQuery: string;
-  isSearch: boolean;
+  triggerSearchMode: boolean;
   userData: UserType | undefined;
   setSearchQuery: (query: string) => void;
-  setIsSearch: (arg: boolean) => void;
+  setTriggerSearchMode: (arg: boolean) => void;
   setUserData: (arg: UserType | undefined) => void;
 }
 
@@ -22,23 +22,23 @@ const Context = createContext<ContextType | undefined>(undefined);
 
 export const ProviderContext: FC<ProviderProps> = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSearch, setIsSearch] = useState(false);
+  const [triggerSearchMode, setTriggerSearchMode] = useState(false);
   const [userData, setUserData] = useState<UserType | undefined>(
     getFromLocalStorage('userData')
   );
 
   useEffect(() => {
-    setIsSearch(() => false);
+    setTriggerSearchMode(() => false);
   }, [searchQuery]);
 
   return (
     <Context.Provider
       value={{
         searchQuery,
-        isSearch,
+        triggerSearchMode,
         userData,
         setSearchQuery,
-        setIsSearch,
+        setTriggerSearchMode,
         setUserData,
       }}
     >

@@ -54,7 +54,7 @@ describe('InputPassword', () => {
   });
 });
 
-describe('InputPassword', () => {
+it('shows warning text if error exists', () => {
   const ComponentWrapper = ({ hasError = false }: { hasError?: boolean }) => {
     const { register } = useForm<{ password: string }>({
       defaultValues: { password: '' },
@@ -79,8 +79,7 @@ describe('InputPassword', () => {
       />
     );
   };
-  it('shows warning text if error exists', () => {
-    render(<ComponentWrapper hasError />);
-    expect(screen.getByText('Password is required')).toBeInTheDocument();
-  });
+
+  render(<ComponentWrapper hasError />);
+  expect(screen.getByText('Password is required')).toBeInTheDocument();
 });

@@ -6,7 +6,7 @@ const ButtonSimple: FC<ButtonSimpleProps> = ({
   text,
   type = 'button',
   cusomStyle,
-  ariaLabe,
+  ariaLabel,
   disabled = false,
   onClick,
 }) => {
@@ -16,7 +16,7 @@ const ButtonSimple: FC<ButtonSimpleProps> = ({
       disabled={disabled}
       type={type}
       className={`buttonSimple ${cusomStyle}`}
-      aria-label={ariaLabe}
+      aria-label={ariaLabel}
       onClick={onClick}
     >
       {text}

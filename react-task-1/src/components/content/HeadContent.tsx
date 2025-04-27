@@ -15,7 +15,7 @@ const HeadContent = () => {
       <SearchBar />
       <ButtonSimple
         text={'Add new course'}
-        ariaLabe={'Add new course button'}
+        ariaLabel={'Add new course button'}
         onClick={handleAddCourse}
       />
     </section>

@@ -2,7 +2,7 @@ export interface ButtonSimpleProps {
   text: string;
   type?: 'button' | 'submit' | 'reset';
   cusomStyle?: string;
-  ariaLabe: string;
+  ariaLabel: string;
   disabled?: boolean;
   onClick?: () => void;
 }
@@ -19,7 +19,7 @@ export interface InputProps {
   label?: string;
   placeholder: string;
   value: string;
-  ariaLabe: string;
+  ariaLabel: string;
   required?: boolean;
   onChange?: (arg: string) => void;
 }
@@ -57,7 +57,7 @@ export interface CardProps extends CoursesListType {
   removeItem: (arg: string) => Promise<void>;
 }
 
-export interface RenderAuthProps {
+export interface AuthorsBlockProps {
   authors: string[];
 }
 

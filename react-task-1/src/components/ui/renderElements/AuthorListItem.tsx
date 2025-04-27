@@ -12,14 +12,15 @@ import {
   removeAuthFromSelect,
 } from '../../../store/slice/authorsSlice';
 import { removeGlobalAuthorThunk } from '../../../store/thunks/authorsThunks';
+import { WARNING_MESSAGES } from '../../../constants/textConstants';
 
-const AuthListItem = ({ selects, auth }: AuthListItemType) => {
+const AuthorListItem = ({ selects, auth }: AuthListItemType) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [warningText, setWarningText] = useState('');
 
-  const handleTrashauth = () => {
+  const handleDeleteAuthor = () => {
     if (!selects && auth) {
       dispatch(removeGlobalAuthorThunk(auth?.id));
     } else {
@@ -31,11 +32,9 @@ const AuthListItem = ({ selects, auth }: AuthListItemType) => {
 
   const handleModal = () => {
     if (!selects) {
-      setWarningText('Do you really want to delete the author');
+      setWarningText(WARNING_MESSAGES.DELETE_AUTHOR);
     } else {
-      setWarningText(
-        'Do you really want to remove the author from this course'
-      );
+      setWarningText(WARNING_MESSAGES.REMOVE_AUTHOR_FROM_COURSE);
     }
     setIsOpenModal(true);
   };
@@ -52,7 +51,7 @@ const AuthListItem = ({ selects, auth }: AuthListItemType) => {
           <ButtonIcon
             before={true}
             pathIcon={addIcon}
-            ariaLabe="Add author"
+            ariaLabel="Add author"
             onClick={handleSelectAuth}
             cusomStyle="auth-icon"
           />
@@ -60,7 +59,7 @@ const AuthListItem = ({ selects, auth }: AuthListItemType) => {
         <ButtonIcon
           before={true}
           pathIcon={trashIcon}
-          ariaLabe="Remove author"
+          ariaLabel="Remove author"
           onClick={handleModal}
           cusomStyle="auth-icon"
         />
@@ -73,13 +72,13 @@ const AuthListItem = ({ selects, auth }: AuthListItemType) => {
           <div className="button-wraper">
             <ButtonSimple
               text={'Cunsel'}
-              ariaLabe={'Open modal'}
+              ariaLabel={'Open modal'}
               onClick={() => setIsOpenModal(false)}
             />
             <ButtonSimple
               text={'Remove author'}
-              ariaLabe={'Remove author'}
-              onClick={handleTrashauth}
+              ariaLabel={'Remove author'}
+              onClick={handleDeleteAuthor}
             />
           </div>
         </div>
@@ -88,4 +87,4 @@ const AuthListItem = ({ selects, auth }: AuthListItemType) => {
   );
 };
 
-export default AuthListItem;
+export default AuthorListItem;

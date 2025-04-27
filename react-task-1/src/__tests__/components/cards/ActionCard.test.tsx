@@ -21,7 +21,7 @@ vi.mock('react-router-dom', async (importOriginal) => {
 
 const store = configureStore({
   reducer: {
-    authorsReducer: () => ({ authors: ['1', '2'] }),
+    authors: () => ({ authors: ['1', '2'] }),
   },
 });
 

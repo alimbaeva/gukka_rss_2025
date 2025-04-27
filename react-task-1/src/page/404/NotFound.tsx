@@ -15,7 +15,7 @@ const NotFound = () => {
       <p>Please click on the button</p>
       <ButtonSimple
         text={'Main page'}
-        ariaLabe={'Add new course button'}
+        ariaLabel={'Add new course button'}
         onClick={handlePages}
       />
     </div>

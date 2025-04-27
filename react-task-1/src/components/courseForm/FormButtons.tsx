@@ -11,12 +11,12 @@ const FormButtons = ({
     <div className="buttons-form-wrapper">
       <ButtonSimple
         text="Cancel"
-        ariaLabe="Cancel button"
+        ariaLabel="Cancel button"
         onClick={handleCloseForm}
       />
       <ButtonSimple
         text={buttonText}
-        ariaLabe="Create course button"
+        ariaLabel="Create course button"
         type="submit"
       />
     </div>

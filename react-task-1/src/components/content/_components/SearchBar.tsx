@@ -2,12 +2,12 @@ import ButtonSimple from '../../ui/buttons/Button';
 import InputSimple from '../../ui/inputs/InputSimple';
 import './style.scss';
 import { useSearch } from '../../context/useSearch';
-import { searchButtonText } from '../../../constants/pathConstants';
+import { ariaLabels, buttonTexts } from '../../../constants/textConstants';
 
 const SearchBar = () => {
-  const { setSearchQuery, searchQuery, setIsSearch } = useSearch();
+  const { setSearchQuery, searchQuery, setTriggerSearchMode } = useSearch();
 
-  const handleSearch = () => setIsSearch(true);
+  const handleSearch = () => setTriggerSearchMode(true);
 
   return (
     <div className="search-bar">
@@ -15,12 +15,12 @@ const SearchBar = () => {
         type={'text'}
         placeholder={'Search input'}
         value={searchQuery}
-        ariaLabe={'Search input'}
+        ariaLabel={'Search input'}
         onChange={setSearchQuery}
       />
       <ButtonSimple
-        text={'Search'}
-        ariaLabe={searchButtonText}
+        text={buttonTexts.searchButtonText}
+        ariaLabel={ariaLabels.searchButtonText}
         onClick={handleSearch}
       />
     </div>

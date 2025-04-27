@@ -45,7 +45,7 @@ const AuthorsForm = <T extends FieldValues>({
         />
         <ButtonSimple
           text="Create Author"
-          ariaLabe="Create Author"
+          ariaLabel="Create Author"
           onClick={handleCreateAuth}
         />
       </div>

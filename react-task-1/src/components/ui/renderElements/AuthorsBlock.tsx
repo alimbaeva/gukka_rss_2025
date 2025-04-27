@@ -1,15 +1,15 @@
 import { FC, useEffect, useState } from 'react';
-import { RenderAuthProps, AuthorsList } from '../../../types/types';
+import { AuthorsBlockProps, AuthorsList } from '../../../types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store/store';
 import { getAuthorsThunk } from '../../../store/thunks/authorsThunks';
 import { filterSelectAuth } from '../../../helper/filterSelectAuth';
 
-const RenderAuth: FC<RenderAuthProps> = ({ authors }) => {
+const AuthorsBlock: FC<AuthorsBlockProps> = ({ authors }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {
-    authors: { authors: authorsslise },
-  } = useSelector((state: RootState) => state.authorsReducer);
+  const { authors: courseAuthors } = useSelector(
+    (state: RootState) => state.authors
+  );
 
   const [authsCourse, setAuthsCourse] = useState<AuthorsList[]>([]);
 
@@ -17,24 +17,24 @@ const RenderAuth: FC<RenderAuthProps> = ({ authors }) => {
     const fetchAuthors = () => {
       if (!authors) return;
       try {
-        if (!authorsslise.length) dispatch(getAuthorsThunk());
-        const data = filterSelectAuth(authors, authorsslise);
+        if (!courseAuthors.length) dispatch(getAuthorsThunk());
+        const data = filterSelectAuth(authors, courseAuthors);
         if (data) setAuthsCourse(() => data);
       } catch (err) {
         console.error(err);
       }
     };
     fetchAuthors();
-  }, [authors, authorsslise, dispatch]);
+  }, [authors, courseAuthors, dispatch]);
 
   if (!authors.length || !authsCourse.length) return;
 
   return authsCourse.map((el, id) => (
     <span key={id} className="auth-item">
       {el.name}
-      {id !== authorsslise.length - 1 && ', '}
+      {id !== courseAuthors.length - 1 && ', '}
     </span>
   ));
 };
 
-export default RenderAuth;
+export default AuthorsBlock;

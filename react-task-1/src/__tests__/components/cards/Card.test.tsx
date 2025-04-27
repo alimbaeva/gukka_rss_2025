@@ -7,7 +7,7 @@ import { mockPropsCard } from '../../mockPData';
 
 const store = configureStore({
   reducer: {
-    authorsReducer: () => ({ authors: ['1', '2'] }),
+    authors: () => ({ authors: ['1', '2'] }),
   },
 });
 

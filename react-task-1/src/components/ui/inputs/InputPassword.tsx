@@ -5,10 +5,11 @@ import type {
   Path,
   UseFormRegister,
 } from 'react-hook-form';
-import TextforInput from './_components/TextforInput';
+import TextForInput from './_components/TextforInput';
 import ButtonIcon from '../buttons/ButtonIcon';
 import showIcon from '../../../assets/eye_show.svg';
 import hidenIcon from '../../../assets/eye_hide.svg';
+import { getErrorMessage } from '../../../helper/getErrorMessage';
 
 interface InputPasswordProps<T extends FieldValues> {
   forInput: keyof T;
@@ -44,15 +45,14 @@ const InputPassword = <T extends FieldValues>({
         <ButtonIcon
           before={true}
           pathIcon={isPasswordVisible ? showIcon : hidenIcon}
-          ariaLabe={'Trash card'}
+          ariaLabel={'Trash card'}
           onClick={togglePasswordVisibility}
           cusomStyle={'password-icon'}
         />
       </div>
-      <TextforInput
-        errors={errors}
+      <TextForInput
+        errorMessage={getErrorMessage(errors, forInput)}
         warnText={warnText}
-        forInput={String(forInput)}
       />
     </div>
   );

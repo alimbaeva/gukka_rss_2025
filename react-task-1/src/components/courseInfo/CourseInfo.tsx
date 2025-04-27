@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { getHours } from '../../helper/getHours';
 import ButtonSimple from '../ui/buttons/Button';
-import RenderAuth from '../ui/renderElements/RenderAuth';
 import './courseInfo.scss';
 import { useSearch } from '../context/useSearch';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { clearCourse } from '../../store/slice/coursesSlice';
 import { coursesPath } from '../../constants/pathConstants';
+import CourseInfoItem from './_components/CourseInfoItem';
 
 const CourseInfo = () => {
   const location = useLocation();
@@ -18,7 +18,7 @@ const CourseInfo = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { setSearchQuery } = useSearch();
   const { course, isLoadingCourses } = useSelector(
-    (state: RootState) => state.coursesReducer
+    (state: RootState) => state.courses
   );
 
   const handleBack = () => {
@@ -33,7 +33,7 @@ const CourseInfo = () => {
     dispatch(getCourseIdThunk(id));
   }, []);
 
-  if (isLoadingCourses) return <p className="container">...louding</p>;
+  if (isLoadingCourses) return <p className="container">...loading</p>;
   if (!course) return;
 
   return (
@@ -41,40 +41,31 @@ const CourseInfo = () => {
       <header className="info-header">
         <ButtonSimple
           text={'Back'}
-          ariaLabe={'Back button'}
+          ariaLabel={'Back button'}
           cusomStyle={'back-button'}
           onClick={handleBack}
         />
         <h2>{course.title}</h2>
       </header>
       <div className="info-wrapper">
-        <div className="infor">
+        <div className="course-info">
           <h3>Description</h3>
           <p>{course.description}</p>
         </div>
-        <div className="infor infor-el">
-          <p className="item">
-            <span>ID:</span>
-            <span className="sub-description">{course.id}</span>
-          </p>
-          <p className="item">
-            <span>Duration:</span>
-            <span className="sub-description">
-              {getHours(course.duration)} hours
-            </span>
-          </p>
-          <p className="item">
-            <span>Created:</span>
-            <span className="sub-description">
-              {convertDateToUTCDate(course.creationDate)}
-            </span>
-          </p>
-          <p className="item">
-            <span>Authors:</span>
-            <span className="sub-description">
-              <RenderAuth authors={course.authors} />
-            </span>
-          </p>
+        <div className="course-info incourse-infofor-el">
+          <CourseInfoItem title="ID:" renderContent={() => course.id} />
+          <CourseInfoItem
+            title="Duration:"
+            renderContent={() => getHours(course.duration)}
+          />
+          <CourseInfoItem
+            title="Created:"
+            renderContent={() => convertDateToUTCDate(course.creationDate)}
+          />
+          <CourseInfoItem
+            title="Authors:"
+            renderContent={() => course.authors}
+          />
         </div>
       </div>
     </div>

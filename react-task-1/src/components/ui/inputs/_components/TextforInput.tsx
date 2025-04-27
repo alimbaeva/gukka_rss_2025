@@ -1,25 +1,17 @@
 import type { FC } from 'react';
-import type { FieldErrors } from 'react-hook-form';
 
-interface TextforInputProps {
-  errors: FieldErrors;
-  forInput: string;
+interface TextForInputProps {
+  errorMessage?: string;
   warnText: string;
 }
 
-const TextforInput: FC<TextforInputProps> = ({
-  errors,
-  warnText,
-  forInput,
-}) => {
+const TextForInput: FC<TextForInputProps> = ({ errorMessage, warnText }) => {
   return (
     <>
-      {!errors[forInput] && <p className="warn-text">{warnText}</p>}
-      {errors[forInput] && (
-        <p className="error-text">{`${errors[forInput]?.message}`}</p>
-      )}
+      {!errorMessage && <p className="warn-text">{warnText}</p>}
+      {errorMessage && <p className="error-text">{`${errorMessage}`}</p>}
     </>
   );
 };
 
-export default TextforInput;
+export default TextForInput;

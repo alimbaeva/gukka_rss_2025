@@ -8,20 +8,20 @@ const ButtonIcon: FC<ButtonIconProps> = ({
   text = '',
   type = 'button',
   cusomStyle,
-  ariaLabe,
+  ariaLabel,
   onClick,
 }) => {
   return (
     <button
-      data-testid={ariaLabe}
+      data-testid={ariaLabel}
       type={type}
       className={`buttonSimple ${cusomStyle}`}
       onClick={onClick}
-      aria-label={ariaLabe}
+      aria-label={ariaLabel}
     >
-      {before && <img src={pathIcon} alt={`${ariaLabe} icon`} width="15px" />}
+      {before && <img src={pathIcon} alt={`${ariaLabel} icon`} width="15px" />}
       {text && text}
-      {after && <img src={pathIcon} alt={`${ariaLabe} icon`} width="15px" />}
+      {after && <img src={pathIcon} alt={`${ariaLabel} icon`} width="15px" />}
     </button>
   );
 };

@@ -9,15 +9,15 @@ vi.mock('../../../components/context/useSearch', () => ({
 
 describe('SearchBar component', () => {
   let setSearchQuery: Mock;
-  let setIsSearch: Mock;
+  let setTriggerSearchMode: Mock;
 
   beforeEach(() => {
     setSearchQuery = vi.fn();
-    setIsSearch = vi.fn();
+    setTriggerSearchMode = vi.fn();
     (useSearch as Mock).mockReturnValue({
       setSearchQuery,
       searchQuery: 'test',
-      setIsSearch,
+      setTriggerSearchMode,
     });
     render(<SearchBar />);
   });
@@ -34,10 +34,10 @@ describe('SearchBar component', () => {
     expect(setSearchQuery).toHaveBeenCalledWith('new query');
   });
 
-  it('should call setIsSearch when search button is clicked', () => {
+  it('should call setTriggerSearchMode when search button is clicked', () => {
     const button = screen.getByText('Search');
     fireEvent.click(button);
 
-    expect(setIsSearch).toHaveBeenCalledWith(true);
+    expect(setTriggerSearchMode).toHaveBeenCalledWith(true);
   });
 });

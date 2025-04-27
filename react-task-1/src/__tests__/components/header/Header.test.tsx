@@ -2,13 +2,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Header from '../../../components/header/Header';
 import { useSearch } from '../../../components/context/useSearch';
 import { vi, Mock } from 'vitest';
-import { removeFromLocalStorage } from '../../../customHooks/localActions';
+import { removeFromLocalStorage } from '../../../hooks/localActions';
 
 vi.mock('../../../components/context/useSearch', () => ({
   useSearch: vi.fn(),
 }));
 
-vi.mock('../../../customHooks/localActions', () => ({
+vi.mock('../../../hooks/localActions', () => ({
   removeFromLocalStorage: vi.fn(),
 }));
 

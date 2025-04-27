@@ -1,19 +1,19 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Header from '../components/header/Header';
 import './app.scss';
-import Courses from './courses/Courses';
-import Login from './auth/Login';
-import CourseActions from './courseActions/CourseActions';
-import PrivateRoute from './PrivateRoute';
-import { useSearch } from '../components/context/useSearch';
-import CourseInfo from '../components/courseInfo/CourseInfo';
-import NotFound from './404/NotFound';
+import { useSearch } from '../../components/context/useSearch';
+import Header from '../../components/header/Header';
+import Login from '../auth/Login';
 import {
   addCoursePath,
   coursesPath,
   editCoursePath,
   loginCoursePath,
-} from '../constants/pathConstants';
+} from '../../constants/pathConstants';
+import PrivateRoute from '../PrivateRoute';
+import Courses from '../courses/Courses';
+import CourseActions from '../courseActions/CourseActions';
+import CourseInfo from '../../components/courseInfo/CourseInfo';
+import NotFound from '../404/NotFound';
 
 const App = () => {
   const { userData } = useSearch();

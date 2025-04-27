@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { CoursesListType } from '../types/types';
+import { useSearch } from '../components/context/useSearch';
 
 interface UseSearchFilterProps {
-  searchQuery: string;
-  isSearch: boolean;
   courseData: CoursesListType[];
 }
 
@@ -14,11 +13,9 @@ interface DataType {
 
 const emptyText = 'Nothing was found in your search.';
 
-const useSearchFilter = ({
-  searchQuery,
-  isSearch,
-  courseData,
-}: UseSearchFilterProps) => {
+const useSearchFilter = ({ courseData }: UseSearchFilterProps) => {
+  const { searchQuery, triggerSearchMode } = useSearch();
+
   const [searchData, setSearchData] = useState<DataType>({
     empty: false,
     data: [],
@@ -39,12 +36,12 @@ const useSearchFilter = ({
   }, [searchQuery, courseData]);
 
   useEffect(() => {
-    if (isSearch) {
+    if (triggerSearchMode) {
       search();
     } else {
       setSearchData({ empty: false, data: [] });
     }
-  }, [isSearch, search]);
+  }, [triggerSearchMode, search]);
 
   return searchData;
 };

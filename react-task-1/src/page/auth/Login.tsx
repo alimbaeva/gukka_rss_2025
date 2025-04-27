@@ -6,7 +6,7 @@ import { LoginFormValues } from '../../types/types';
 import './login.scss';
 import { loginUser } from '../../api/login';
 import { useSearch } from '../../components/context/useSearch';
-import { saveToLocalStorage } from '../../customHooks/localActions';
+import { saveToLocalStorage } from '../../hooks/localActions';
 import { useNavigate } from 'react-router-dom';
 import { loginFormSchema } from '../../helper/validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -75,7 +75,7 @@ const Login = () => {
         <ButtonSimple
           disabled={!isValid}
           text={'Login'}
-          ariaLabe={'Login'}
+          ariaLabel={'Login'}
           type="submit"
         />
       </form>

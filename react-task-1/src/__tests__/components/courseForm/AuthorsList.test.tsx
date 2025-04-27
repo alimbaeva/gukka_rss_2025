@@ -3,7 +3,7 @@ import { AuthListItemType } from '../../../types/types';
 import { vi } from 'vitest';
 import AuthorsList from '../../../components/courseForm/AuthorsList';
 
-vi.mock('../../../components/ui/renderElements/AuthListItem', () => ({
+vi.mock('../../../components/ui/renderElements/AuthorListItem', () => ({
   __esModule: true,
   default: vi.fn(() => <li>Mocked AuthListItem</li>),
 }));

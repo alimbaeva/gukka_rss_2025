@@ -8,12 +8,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { clearCourse } from '../../store/slice/coursesSlice';
-import { useInitAuthors } from '../../customHooks/useInitAuthors';
-import { useCourseDataFill } from '../../customHooks/useCourseDataFill';
-import { useCourseEffects } from '../../customHooks/useCourseEffects';
-import { useCourseSubmit } from '../../customHooks/useCourseSubmit';
-import { useCourseForm } from '../../customHooks/useCourseForm';
+import { useInitAuthors } from '../../hooks/useInitAuthors';
+import { useCourseDataFill } from '../../hooks/useCourseDataFill';
+import { useCourseEffects } from '../../hooks/useCourseEffects';
+import { useCourseSubmit } from '../../hooks/useCourseSubmit';
+import { useCourseForm } from '../../hooks/useCourseForm';
 import { coursesPath } from '../../constants/pathConstants';
+import { COURSE_ACTIONS } from '../../constants/textConstants';
 
 const CourseActions = () => {
   const location = useLocation();
@@ -21,9 +22,9 @@ const CourseActions = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const {
-    authors: { authList, selectAuth, authors },
-  } = useSelector((state: RootState) => state.authorsReducer) || {
+  const { authList, selectAuth, authors } = useSelector(
+    (state: RootState) => state.authors
+  ) || {
     authors: {
       authList: [],
       selectAuth: [],
@@ -31,7 +32,7 @@ const CourseActions = () => {
     },
   };
   const { course, isLoadingCourses } =
-    useSelector((state: RootState) => state.coursesReducer) || {};
+    useSelector((state: RootState) => state.courses) || {};
   const {
     register,
     handleSubmit,
@@ -54,11 +55,13 @@ const CourseActions = () => {
     dispatch(clearCourse());
   };
 
-  if (isLoadingCourses && id) return <p className="container">...louding</p>;
+  if (isLoadingCourses && id) return <p className="container">...loading</p>;
 
   return (
     <section className="container action-page">
-      <h1 className="title-page">{!id ? 'Course Creat' : 'Edit Course'}</h1>
+      <h1 className="title-page">
+        {!id ? COURSE_ACTIONS.CREATE : COURSE_ACTIONS.EDIT}
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="action-form">
         <div className="item-form-wrapper">
           <MainInfo register={register} errors={errors} />
@@ -78,7 +81,7 @@ const CourseActions = () => {
               <div className="course-authors">
                 <h2>Course Authors</h2>
                 {!selectAuth.length && <p>Author list empty</p>}
-                {selectAuth.length ? (
+                {selectAuth.length && authors?.length ? (
                   <AuthorsList
                     title={'Course Authors'}
                     authList={selectAuth}
@@ -87,7 +90,9 @@ const CourseActions = () => {
                 ) : null}
               </div>
             </div>
-            <AuthorsList title={'Authors List'} authList={authList} />
+            {authors?.length > 0 && (
+              <AuthorsList title="Authors" authList={authors} />
+            )}
           </div>
         </div>
         <FormButtons

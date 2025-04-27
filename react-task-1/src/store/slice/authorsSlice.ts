@@ -6,26 +6,20 @@ import {
   removeGlobalAuthorThunk,
 } from '../thunks/authorsThunks';
 
-interface Authors {
+interface AuthorsState {
+  isLoading: boolean;
+  error: string;
   authList: AuthorsListType[];
   selectAuth: AuthorsListType[];
   authors: AuthorsListType[];
 }
 
-interface AuthorsState {
-  isLoading: boolean;
-  error: string;
-  authors: Authors;
-}
-
 const initialState: AuthorsState = {
   isLoading: false,
   error: '',
-  authors: {
-    authList: [],
-    selectAuth: [],
-    authors: [],
-  },
+  authList: [],
+  selectAuth: [],
+  authors: [],
 };
 
 const authorsSlice = createSlice({
@@ -33,28 +27,23 @@ const authorsSlice = createSlice({
   initialState,
   reducers: {
     setAuthSelect: (state, action: PayloadAction<AuthorsListType[] | []>) => {
-      state.authors.selectAuth = action.payload;
-      state.authors.authList = state.authors.authors.filter(
-        (author) => !author.removed
-      );
+      state.selectAuth = action.payload;
+      state.authList = state.authors.filter((author) => !author.removed);
     },
     addAuthToSelect: (state, action: PayloadAction<AuthorsListType>) => {
-      state.authors.selectAuth.push(action.payload);
-      state.authors.authList = state.authors.authList.filter(
+      state.selectAuth.push(action.payload);
+      state.authList = state.authList.filter(
         (el) => el.id !== action.payload.id
       );
     },
     removeAuthFromSelect: (state, action: PayloadAction<string>) => {
-      state.authors.selectAuth = state.authors.selectAuth.filter(
+      state.selectAuth = state.selectAuth.filter(
         (el) => el.id !== action.payload
       );
-      const authRemoveInSelect = state.authors.authors.filter(
+      const authRemoveInSelect = state.authors.filter(
         (el) => el.id === action.payload
       );
-      state.authors.authList = [
-        ...state.authors.authList,
-        ...authRemoveInSelect,
-      ];
+      state.authList = [...state.authList, ...authRemoveInSelect];
     },
   },
   extraReducers: (builder) => {
@@ -64,10 +53,8 @@ const authorsSlice = createSlice({
       })
       .addCase(getAuthorsThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.authors.authors = action.payload;
-        state.authors.authList = action.payload.filter(
-          (author) => !author.removed
-        );
+        state.authors = action.payload;
+        state.authList = action.payload.filter((author) => !author.removed);
       })
       .addCase(getAuthorsThunk.rejected, (state, action) => {
         state.isLoading = false;
@@ -78,8 +65,8 @@ const authorsSlice = createSlice({
       })
       .addCase(createAuthorThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.authors.authList = [...state.authors.authList, action.payload];
-        state.authors.authors = [...state.authors.authors, action.payload];
+        state.authList = [...state.authList, action.payload];
+        state.authors = [...state.authors, action.payload];
       })
       .addCase(createAuthorThunk.rejected, (state, action) => {
         state.isLoading = false;
@@ -90,7 +77,7 @@ const authorsSlice = createSlice({
       })
       .addCase(removeGlobalAuthorThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.authors.authList = state.authors.authList.filter(
+        state.authList = state.authList.filter(
           (el) => el.id !== action.payload.id
         );
       })

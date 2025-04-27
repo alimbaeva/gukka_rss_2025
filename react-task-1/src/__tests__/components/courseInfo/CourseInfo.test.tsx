@@ -28,19 +28,19 @@ const courseMock = {
   authors: ['1', '2'],
 };
 
-const authorsReducer = () => ({
+const authors = () => ({
   authors: ['1', '2'],
 });
 
-const coursesReducer = () => ({
+const courses = () => ({
   course: courseMock,
   isLoadingCourses: false,
 });
 
 const store = configureStore({
   reducer: {
-    authorsReducer,
-    coursesReducer,
+    authors,
+    courses,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

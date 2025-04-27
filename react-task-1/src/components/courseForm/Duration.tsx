@@ -5,7 +5,8 @@ import {
   Path,
 } from 'react-hook-form';
 import { getHours } from '../../helper/getHours';
-import TextforInput from '../ui/inputs/_components/TextforInput';
+import TextForInput from '../ui/inputs/_components/TextforInput';
+import { getErrorMessage } from '../../helper/getErrorMessage';
 
 interface DurationProps<T extends FieldValues> {
   register: UseFormRegister<T>;
@@ -32,10 +33,9 @@ const Duration = <T extends FieldValues>({
             {...register('duration' as Path<T>, { valueAsNumber: true })}
             className="input-field"
           />
-          <TextforInput
-            errors={errors}
+          <TextForInput
+            errorMessage={getErrorMessage(errors, 'duration')}
             warnText={'warnText'}
-            forInput={'duration'}
           />
         </div>
         <p>
